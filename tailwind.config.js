@@ -5,6 +5,16 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      animation: {
+        'reverse-spin': 'reverse-spin 3s linear infinite'
+      },
+      keyframes: {
+        'reverse-spin': {
+          from: {
+            transform: 'rotate(360deg)'
+          },
+        }
+      },
       colors: {
         emerald: colors.emerald,
         teal: colors.teal,
