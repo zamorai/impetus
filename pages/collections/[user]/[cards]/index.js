@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import {
-    XIcon,
     BookOpenIcon,
     ClockIcon,
     AcademicCapIcon,
@@ -10,52 +9,6 @@ import Link from 'next/link';
 import { collection, getDocs, getDoc, doc, setDoc, deleteDoc } from '@firebase/firestore';
 import { firestore } from '../../../lib/firebase';
 import { UserContext } from '../../../lib/context';
-
-const cards = [{
-    frontInfo: 'Volcanic Erruption',
-    backInfo: 'Torrential screen of power that consumes the netire nether in it\'s claws and never lets go',
-},
-{
-    frontInfo: 'Microbe',
-    backInfo: 'The powerhouse of the cell',
-},
-{
-    frontInfo: 'Insider Trading',
-    backInfo: 'Selling stocks to all your friends',
-},{
-    frontInfo: 'Volcanic Erruption',
-    backInfo: 'Torrential screen of power that consumes the netire nether in it\'s claws and never lets go',
-},
-{
-    frontInfo: 'Microbe',
-    backInfo: 'The powerhouse of the cell',
-},
-{
-    frontInfo: 'Insider Trading',
-    backInfo: 'Selling stocks to all your friends',
-},{
-    frontInfo: 'Volcanic Erruption',
-    backInfo: 'Torrential screen of power that consumes the netire nether in it\'s claws and never lets go',
-},
-{
-    frontInfo: 'Microbe',
-    backInfo: 'The powerhouse of the cell',
-},
-{
-    frontInfo: 'Insider Trading',
-    backInfo: 'Selling stocks to all your friends',
-},{
-    frontInfo: 'Volcanic Erruption',
-    backInfo: 'Torrential screen of power that consumes the netire nether in it\'s claws and never lets go',
-},
-{
-    frontInfo: 'Microbe',
-    backInfo: 'The powerhouse of the cell',
-},
-{
-    frontInfo: 'Insider Trading',
-    backInfo: 'Selling stocks to all your friends',
-}]
 
 const navigation = [
     { name: 'Study', href: '/user/collection/study', icon: BookOpenIcon, current: true },
@@ -77,13 +30,13 @@ export async function getServerSideProps({ params }) {
     const titleSnap = await getDoc(titleRef)
 
     return {
-        props: { collectionCards, title: titleSnap.data().name, collectionName }
+        props: { collectionCards, title: titleSnap.data().name, collectionName, uid:userId }
     }    
 }
 
-export default function Collection({collectionCards, title, collectionName}) {
+export default function Collection({collectionCards, title, collectionName, uid}) {
     const user = useContext(UserContext)
-    const cardName = `card-${Math.floor(Math.random()*100)}`
+    const cardName = `card-${Math.floor(Math.random()*1000)}`
 
     const addCard = async () => {
         await setDoc(doc(firestore, `users/${user.uid}/collections/${collectionName}/cards/${cardName}`), {
@@ -157,7 +110,7 @@ export default function Collection({collectionCards, title, collectionName}) {
                     {singleCollection}
                 </div>
                 <div className="fixed bottom-0 left-1/2 mb-8">
-                    <Link href="/izamora/collections/card">
+                    <Link href={`/${uid}/${collectionName}/card-creation`}>
                         <button
                         onClick={addCard}
                         type="button"

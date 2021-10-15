@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { RefreshIcon } from '@heroicons/react/outline';
 
-export default function FlashCard() {
+export default function FlashCard(props) {
     const[front, setFront] = useState(true)
-    const[frontInfo, setFrontInfo] = useState('')
-    const[backInfo, setBackInfo] = useState('')
+    const[frontInfo, setFrontInfo] = useState(props.frontInfo)
+    const[backInfo, setBackInfo] = useState(props.backInfo)
 
     const frontCard = () => {
         return (
         <div className="mt-24 md:mt-36">
-            <input placeholder="Term" name="flash card" type="text" autoComplete='off' required className="appearance-none  text-lg block w-full px-5 py-4 border-none text-center rounded-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 "/>
+            <input onChange={(e) => setFrontInfo(e.target.value)} placeholder="Term" value={frontInfo} name="flash card" type="text" autoComplete='off' required className="appearance-none  text-lg block w-full px-5 py-4 border-none text-center rounded-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 "/>
         </div>
         )
     }
@@ -17,7 +17,7 @@ export default function FlashCard() {
     const backCard = () => {
         return (
         <div className="mt-12 md:mt-24">
-            <textarea rows="5" placeholder="Description" name="flash card" type="text" required className="appearance-none resize-none mt-12 block w-full px-3 py-2 border-none text-center rounded-md  placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"/>
+            <textarea onChange={(e) => setBackInfo(e.target.value)} rows="5" placeholder="Description" value={backInfo} name="flash card" type="text" required className="appearance-none resize-none mt-12 block w-full px-3 py-2 border-none text-center rounded-md  placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"/>
         </div> 
         )
     }

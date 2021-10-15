@@ -1,11 +1,20 @@
 import { collection, query, onSnapshot, doc, deleteDoc } from '@firebase/firestore';
-import { firestore } from '../../lib/firebase';
+import { firestore } from '../../../lib/firebase';
 import Link from 'next/link';
 import { Dialog, Transition } from '@headlessui/react'
 import { useContext, useEffect, useState, useRef, Fragment } from 'react';
-import { UserContext } from '../../lib/context';
+import { UserContext } from '../../../lib/context';
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
+
+
+const collectionss = [{
+  cards: 12,
+  name: 'Mathematical Agenda'
+}, {
+  cards: 234,
+  name: "Escanor"
+}]
 
 export default function User() {
   const user = useContext(UserContext)
@@ -29,24 +38,67 @@ export default function User() {
 
   return (
     <>
-      <div className="relative bg-emerald-800 h-48 md:h-56">
-        <div className="absolute inset-0">
-          <img
-            className="w-full h-full object-cover"
-            src={'/user-illustration.png'}
-            alt="User Collection list image"
-          />
-          <div className="absolute inset-0 bg-emerald-800 mix-blend-multiply" aria-hidden="true" />
-        </div>
-        <div className="relative max-w-7xl py-16 mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center grid-bg h-28 md:h-32 lg:h-36">
+        <div className="relative max-w-7xl py-12 mx-auto flex justify-center px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl lg:text-6xl">All Collections</h1>
         </div>
       </div>
-      <CollectionList collections={collections} user={user}/>
-  </>
+      <Collections collections={collections}/>
+    </>
   )
 }
 
+function Collections(props) {
+
+  return (
+    <div className="w-full">
+      <div className="w-full h-24 divide-y divide-gray-200">
+        {collectionss.map((collection) => (
+          <div className="h-full text-gray-600 w-full hover:bg-gray-200">
+            <div className="w-full h-full max-w-7xl mx-auto flex items-center justify-between flex-wrap">
+
+              <div className="flex items-center justify-center w-12 ml-4 bg-blue-200">
+                <div className="flex-shrink-0">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    {collection.cards}
+                  </span>
+                </div>
+              </div>
+
+              <div className="ml-4 bg-red-200 w-24 sm:w-28 md:w-32 lg:w-48 text-center">
+                <Link href={''} >
+                  <div className="text-sm font-medium text-indigo-600 cursor-pointer">{collection.name}</div>
+                </Link>
+              </div>
+
+              <div className="flex items-center justify-between bg-green-300 w-12">
+                <a href="#" className="text-emerald-600 hover:text-emerald-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </a>
+                <a onClick={() => setOpen(true)} className="text-red-600 hover:text-red-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </a>
+              </div>
+
+              <div className="bg-yellow-300 flex self-stretch w-52 justify-around items-center">
+                <div className=""> study </div>
+                <div className="border-l border-r px-4 border-emerald-400"> timed </div>
+                <div className=''> quiz </div>
+              </div>
+
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+//<CollectionList collections={collections} user={user}/>
 function CollectionList(props) {
   const[open, setOpen] = useState(false)
 
@@ -207,4 +259,3 @@ function CancelModal(props) {
     </Transition.Root>
   )
 }
-  
